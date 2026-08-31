@@ -3,12 +3,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
  
  
-# URL de connexió
+# URL de connexión
 DATABASE_URL = "sqlite:///sensors.db"
  
-# Engine: la connexió al motor de BD
-# echo=False  →  no mostra SQL per consola (True per depurar)
-# check_same_thread=False  →  necessari per a SQLite amb FastAPI
+# Engine: la conexión al motor de BD
+# echo=False  →  no muestra SQL por consola (True para depurar)
+# check_same_thread=False  →  necesario para SQLite con FastAPI
 engine = create_engine(
     DATABASE_URL,
     echo=False,
@@ -16,8 +16,8 @@ engine = create_engine(
 )
  
 # SessionLocal: factoria de sessions
-# autocommit=False  →  cal fer db.commit() explícitament
-# autoflush=False   →  no envia canvis fins al commit
+# autocommit=False  →  hace falta hacer db.commit() explicitamente
+# autoflush=False   →  no envia cambios hasta el commit()
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
@@ -25,12 +25,12 @@ SessionLocal = sessionmaker(
 )
  
  
-# Base: classe de la qual hereten tots els models
+# Base: clase de la cual heredamos todos los valores
 class Base(DeclarativeBase):
     pass
  
  
-# Dependency per a FastAPI
+# Dependencia para FastAPI
 def get_db():
     db = SessionLocal()
     try:
