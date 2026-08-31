@@ -1,11 +1,3 @@
-#.venv \ Scripts\ activate
-#uv run uvicorn api:app --host 0.0.0.0 --port 8080 --reload
-''' Invoke-WebRequest -Uri http://localhost:8080/sensor/data `       
->>   -Method POST `
->>   -Headers @{ "Content-Type" = "application/json" } `
->>    -Body '{"sensor":"microfon","valor":5555}'
-'''
-
 # api.py
 from fastapi         import FastAPI, HTTPException, Depends
 from sqlalchemy      import select, desc
@@ -20,7 +12,7 @@ from models   import Base
  
 app = FastAPI(title="Sensors IoT")
  
-# Crea les taules a l'arrencada si no existeixen
+# Crea las tablas al iniciarse si es que no existen ya
 Base.metadata.create_all(bind=engine)
 
  
@@ -30,7 +22,7 @@ async def inserir_lectura(
     body: dict,
     db:   Session = Depends(get_db)
 ):
-    # Validació manual: comprovem que hi siguin tots els camps
+    # Se comprueba que esten todos los campos
     camps = ["sensor", "valor", "unitat", "dispositiu"]
     for camp in camps:
         if camp not in body:
@@ -39,7 +31,7 @@ async def inserir_lectura(
                 detail="Falta el camp: " + camp
             )
  
-    # Crear la instancia ORM amb les dades rebudes
+    # Crea la instancia ORM con los datos recibidos
     nova = Lectura(
         sensor     = body["sensor"],
         valor      = body["valor"],
@@ -49,11 +41,11 @@ async def inserir_lectura(
   
     )
  
-    db.add(nova)       # afegeix a la sessió (INSERT pendent)
-    db.commit()        # executa el INSERT i confirma
-    db.refresh(nova)   # llegeix l'id que SQLite ha assignat
+    db.add(nova)       # añade a la sesión(INSERT pendiente)
+    db.commit()        # ejecuta el INSERT y confirma
+    db.refresh(nova)   # lee el id que SQLite le ha asignado
  
-    # Retornem un dict — FastAPI el serialitza a JSON automàticament
+    # Regresa un diccionario — FastAPI lo serializa a JSON automaticamente
     return {
         "id":         nova.id,
         "sensor":     nova.sensor,
@@ -65,6 +57,7 @@ async def inserir_lectura(
 
 energia_global = 0
 prev_like = 0
+
 # Endpoint GET para obtener el nivel y definir un estado para el ESP32_B
 @app.get("/estado")
 async def consultar_estado(
@@ -72,19 +65,19 @@ async def consultar_estado(
     ):
 
     # Se consulta datos de la tabla de Lectures
-    # Construir la query: ORDER BY id DESC per obtenir la mes recent
+    # Construir la query: ORDER BY id DESC para obtener la mas reciente
     query = select(Lectura).order_by(desc(Lectura.id)).limit(1)
  
     # execute() envia la query a SQLite
-    # scalars() desempaqueta els resultats com a objectes Lectura
-    # first() retorna el primer o None si no hi ha resultats
+    # scalars() desempaqueta los resultados como objetos a Lectura
+    # first() muestra el primero o None si no hay resultados
     resultat = db.execute(query).scalars().first()
 
-
+   
     global energia_global
     global prev_like
 
-
+    # Se clasifican los valores en estados según la cantidad percibida
     nivel = resultat.valor
     if nivel < 25:
         estado = "chill"
@@ -100,7 +93,8 @@ async def consultar_estado(
         valor_estado = 0.5
 
     
-
+    #Se calcula la energía que en este caso es el valor actual de la barra para llegar al valor límite de la flor servo
+    #El cálculo se hace en base a la cantidad de likes recibidos a traves sel streamlit 
     if actual_likes_global == prev_like:
         energia_global += valor_estado
     else:
@@ -117,6 +111,7 @@ async def consultar_estado(
         "energia": energia_global
     }
 
+
 actual_likes_global = 0
 # Endpoint POST que recibira la lectura de datos ingresados en el streamlit la parte de likes
 @app.post("/likes")
@@ -129,7 +124,7 @@ async def consultar_data(body: dict):
             detail="No camp" 
         )
     actual_likes_global = body["actual_likes"]
-    # Retornem un dict — FastAPI el serialitza a JSON automàticament
+ 
     return {
         "actual_likes": actual_likes_global,
     }
@@ -143,13 +138,13 @@ async def recibir_likes():
         "likes": actual_likes_global
     }
 
-# Endpoint POST que recibira la lectura de datos ingresados en el streamlit la parte de afooro y limite de likes
+# Endpoint POST que recibira la lectura de datos ingresados en el streamlit la parte de aforo y limite de likes
 @app.post("/limites")
 async def consultar_data(
     body: dict,
     db:   Session = Depends(get_db)
 ):
-    # Validació manual: comprovem que hi siguin tots els camps
+    
     camps = ["likes_limit", "aforo"]
     for camp in camps:
         if camp not in body:
@@ -158,7 +153,7 @@ async def consultar_data(
                 detail="Falta el camp: " + camp
             )
  
-    # Crear la instancia ORM amb les dades rebudes
+    
     nova = Parameters(
         likes_limit            = body["likes_limit"],
         aforo                  = body["aforo"],
@@ -166,11 +161,11 @@ async def consultar_data(
   
     )
  
-    db.add(nova)       # afegeix a la sessió (INSERT pendent)
-    db.commit()        # executa el INSERT i confirma
-    db.refresh(nova)   # llegeix l'id que SQLite ha assignat
+    db.add(nova)       
+    db.commit()        
+    db.refresh(nova)   
  
-    # Retornem un dict — FastAPI el serialitza a JSON automàticament
+    
     return {
         "id":              nova.id,
         "likes_limit":     nova.likes_limit,
@@ -178,7 +173,7 @@ async def consultar_data(
         "timestamp":       nova.timestamp
     }
 
-
+# endpoint GET para obtener el historial de los últimos 20 de la base de datos
 @app.get("/sensor/historial")
 async def historial(
     sensor: Optional[str] = None,
@@ -190,11 +185,10 @@ async def historial(
     if sensor is not None:
         query = query.where(Lectura.sensor == sensor)
  
-    # all() retorna una llista de tots els objectes Lectura
+    # all() regresa una lista de todos los objetos
     resultats = db.execute(query).scalars().all()
  
-    # llista local per construir la resposta JSON
-    # (no és emulació de BD — les dades venen de SQLite via resultats)
+
     llista = []
     for r in resultats:
         llista.append({
