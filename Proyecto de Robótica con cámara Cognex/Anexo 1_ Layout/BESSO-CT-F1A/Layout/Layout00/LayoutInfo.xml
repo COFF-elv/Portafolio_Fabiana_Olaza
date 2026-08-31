@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Layout>
+	<Version>2.0</Version>
+	<TDMonitor>
+		<LightPosition>1</LightPosition>
+		<Floor>
+			<Display>0</Display>
+			<FloorLevel>0.000</FloorLevel>
+			<Size>5000</Size>
+			<Color1>4030464</Color1>
+			<Color2>5767167</Color2>
+			<Transparency>50</Transparency>
+		</Floor>
+		<BackColor>0</BackColor>
+		<CoordinateAxes>1</CoordinateAxes>
+		<OrthographicProjection>0</OrthographicProjection>
+	</TDMonitor>
+	<DispRobotInfos/>
+	<Objects/>
+</Layout>

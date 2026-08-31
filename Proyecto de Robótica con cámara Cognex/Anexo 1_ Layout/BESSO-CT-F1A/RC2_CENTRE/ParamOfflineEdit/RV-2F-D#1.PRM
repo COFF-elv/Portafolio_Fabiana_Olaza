@@ -1,0 +1,12 @@
+RV-2F-DNARC parameter system V1.0;
+RLNG=Ud,2;
+MEINSD=Ul,2555903;
+MEORGNO=Md,-1,-1,-1,-1,-1,-1,-1,-1;
+FSIFUREV=Mx,0x0,0x0;
+FSIFVER=Us,"";
+RETLMT=Uf,0,0,0,%r0,%r0,%r0,0,0;
+JSAFE=Uf,%r0,%r0,%r90,%r0,%r90,%r0,0,0;
+MEXTL1=Uf,0,0,96,%r0,%r0,%r0;
+MEXTL=Uf,0,0,96,%r0,%r0,%r0;
+MEXTLNO=Ui,1;
+MEXTL2=Uf,0,0,96,%r0,%r0,%r0;

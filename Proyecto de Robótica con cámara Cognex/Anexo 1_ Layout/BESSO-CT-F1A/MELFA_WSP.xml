@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Workspace>
+	<Workspace_Title/>
+	<Workspace_Vertion>1.7.0</Workspace_Vertion>
+	<Workspace_Date>2023/11/27 20:40:12</Workspace_Date>
+	<Display3D>
+		<RobotModelType>0</RobotModelType>
+		<ZoomType>0</ZoomType>
+	</Display3D>
+	<ScreenRect>
+		<Screen160>
+			<AdditionalInfo/>
+			<Left>-3</Left>
+			<Top>-12</Top>
+			<Right>1553</Right>
+			<Bottom>756</Bottom>
+		</Screen160>
+	</ScreenRect>
+	<Project>RC2_CENTRE</Project>
+	<LastLayoutSelect>LAYOUT_PROYECTO_CAMARA</LastLayoutSelect>
+	<IOSimulator>
+		<FilePathType>1</FilePathType>
+		<FilePath>@IOSimulator@\IO.xml</FilePath>
+		<AutoStart>1</AutoStart>
+	</IOSimulator>
+	<LastSimulationSelect>
+		<ProjectName>RC2_CENTRE</ProjectName>
+	</LastSimulationSelect>
+</Workspace>

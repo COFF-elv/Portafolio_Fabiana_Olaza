@@ -1,0 +1,4 @@
+2024:01:30 20:17:10	:Syntax check Error
+	:Program	:PROGRAMA01(Command:17)	:RC6_PLC_MITSB	:Robot	:17      Case M_In(31)= 1 And And M_In(9)= 0	:Syntax error
+2024:01:31 21:29:21	:Syntax check Error
+	:Program	:PROGRAMA01(Command:81)	:RC6_PLC_MITSB	:Robot	:81            If M_In(59)= 1 And M_In(58)= 1 And M_In(57)= 1 And M_In(56)= 1 Then	:IF ENDIF statements unmatch
