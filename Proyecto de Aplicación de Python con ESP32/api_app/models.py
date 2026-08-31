@@ -12,7 +12,7 @@ class Lectura(Base):
     __tablename__ = "lectures"
  
     # Mapped[tipus] = type hint Python
-    # mapped_column() = opcions de la columna SQL
+    # mapped_column() = opciones de la columna SQL
     id:         Mapped[int]   = mapped_column(Integer, primary_key=True)
     sensor:     Mapped[str]   = mapped_column(String,  nullable=False)
     valor:      Mapped[float] = mapped_column(Float,   nullable=False)
@@ -29,7 +29,7 @@ class Parameters(Base):
     __tablename__ = "Parameters"
  
     # Mapped[tipus] = type hint Python
-    # mapped_column() = opcions de la columna SQL
+    # mapped_column() = opciones de la columna SQL
     id:         Mapped[int]   = mapped_column(Integer, primary_key=True)
     likes_limit:     Mapped[int]   = mapped_column(Integer,  nullable=False)
     aforo:      Mapped[int] = mapped_column(Integer,   nullable=False)
